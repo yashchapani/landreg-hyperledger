@@ -18,7 +18,7 @@ SPDX-License-Identifier: Apache-2.0
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { FileSystemWallet, Gateway } = require('fabric-network');
-const CommercialPaper = require('../chaincode/contract/lib/paper.js');
+const LandPaper = require('../chaincode/contract/lib/paper.js');
 
 // A wallet stores a collection of identities for use
 //const wallet = new FileSystemWallet('../user/isabella/wallet');
@@ -63,16 +63,16 @@ async function main() {
     const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
 
     // issue commercial paper
-    console.log('Submit commercial paper issue transaction.');
+    console.log('Submit land paper issue transaction.');
 
-    const issueResponse = await contract.submitTransaction('issue', 'MagnetoCorp', '00001', '2020-05-31', '2020-11-30', '5000000');
+    const issueResponse = await contract.submitTransaction('buy', '8', '3', '9', '4', '5');
 
     // process response
     console.log('Process issue transaction response.');
 
-    let paper = CommercialPaper.fromBuffer(issueResponse);
+    let paper = LandPaper.fromBuffer(issueResponse);
 
-    console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully issued for value ${paper.faceValue}`);
+    console.log(`land paper : ${paper.surveyID} successfully issued`);
     console.log('Transaction complete.');
 
   } catch (error) {

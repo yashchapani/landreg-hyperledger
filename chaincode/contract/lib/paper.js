@@ -1,39 +1,18 @@
-/*
-SPDX-License-Identifier: Apache-2.0
-*/
 
 'use strict';
 
-// Utility class for ledger state
 const State = require('./../ledger-api/state.js');
 
-// Enumerate commercial paper state values
 const cpState = {
-    ISSUED: 1,
-    TRADING: 2,
-    REDEEMED: 3
+    ALLOCATED: 1,
+    UNALLOCATED: 2
 };
 
-/**
- * CommercialPaper class extends State class
- * Class will be used by application and smart contract to define a paper
- */
-class CommercialPaper extends State {
+class LandPaper extends State {
 
     constructor(obj) {
-        super(CommercialPaper.getClass(), [obj.issuer, obj.paperNumber]);
+        super(LandPaper.getClass(), [obj.surveyID]);
         Object.assign(this, obj);
-    }
-
-    /**
-     * Basic getters and setters
-    */
-    getIssuer() {
-        return this.issuer;
-    }
-
-    setIssuer(newIssuer) {
-        this.issuer = newIssuer;
     }
 
     getOwner() {
@@ -44,35 +23,28 @@ class CommercialPaper extends State {
         this.owner = newOwner;
     }
 
-    /**
-     * Useful methods to encapsulate commercial paper states
-     */
-    setIssued() {
-        this.currentState = cpState.ISSUED;
+    setAllocated() {
+        this.currentState = cpState.ALLOCATED;
     }
 
-    setTrading() {
-        this.currentState = cpState.TRADING;
+    setUnallocated() {
+        this.currentState = cpState.UNALLOCATED;
     }
 
-    setRedeemed() {
-        this.currentState = cpState.REDEEMED;
+    isAllocated() {
+        return this.currentState === cpState.ALLOCATED;
     }
 
-    isIssued() {
-        return this.currentState === cpState.ISSUED;
+    isUnallocated() {
+        return this.currentState === cpState.UNALLOCATED;
     }
 
-    isTrading() {
-        return this.currentState === cpState.TRADING;
-    }
-
-    isRedeemed() {
-        return this.currentState === cpState.REDEEMED;
+    setPrice(newPrice){
+        this.currentPrice = newPrice;
     }
 
     static fromBuffer(buffer) {
-        return CommercialPaper.deserialize(Buffer.from(JSON.parse(buffer)));
+        return LandPaper.deserialize(Buffer.from(JSON.parse(buffer)));
     }
 
     toBuffer() {
@@ -84,14 +56,11 @@ class CommercialPaper extends State {
      * @param {Buffer} data to form back into the object
      */
     static deserialize(data) {
-        return State.deserializeClass(data, CommercialPaper);
+        return State.deserializeClass(data, LandPaper);
     }
 
-    /**
-     * Factory method to create a commercial paper object
-     */
-    static createInstance(issuer, paperNumber, issueDateTime, maturityDateTime, faceValue) {
-        return new CommercialPaper({ issuer, paperNumber, issueDateTime, maturityDateTime, faceValue });
+    static createInstance(surveyID, owner, landDescription, currentPrice, area) {
+        return new LandPaper({ surveyID, owner, landDescription, currentPrice, area });
     }
 
     static getClass() {
@@ -99,4 +68,4 @@ class CommercialPaper extends State {
     }
 }
 
-module.exports = CommercialPaper;
+module.exports = LandPaper;

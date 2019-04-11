@@ -7,13 +7,13 @@ SPDX-License-Identifier: Apache-2.0
 // Utility class for collections of ledger states --  a state list
 const StateList = require('./../ledger-api/statelist.js');
 
-const CommercialPaper = require('./paper.js');
+const LandPaper = require('./paper.js');
 
-class PaperList extends StateList {
+class LandPaperList extends StateList {
 
     constructor(ctx) {
-        super(ctx, 'org.papernet.commercialpaperlist');
-        this.use(CommercialPaper);
+        super(ctx, 'org.papernet.commercialpaper');
+        this.use(LandPaper);
     }
 
     async addPaper(paper) {
@@ -30,4 +30,4 @@ class PaperList extends StateList {
 }
 
 
-module.exports = PaperList;
+module.exports = LandPaperList;
