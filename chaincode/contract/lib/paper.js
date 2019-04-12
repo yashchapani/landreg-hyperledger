@@ -64,7 +64,7 @@ class LandPaper extends State {
     }
 
     static getClass() {
-        return 'org.papernet.commercialpaper';
+        return 'org.regnet.reg';
     }
 }
 

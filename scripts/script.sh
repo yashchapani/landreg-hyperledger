@@ -1,14 +1,6 @@
 #!/bin/bash
 
-echo
-echo " ____    _____      _      ____    _____ "
-echo "/ ___|  |_   _|    / \    |  _ \  |_   _|"
-echo "\___ \    | |     / _ \   | |_) |   | |  "
-echo " ___) |   | |    / ___ \  |  _ <    | |  "
-echo "|____/    |_|   /_/   \_\ |_| \_\   |_|  "
-echo
-echo "Build your first network (BYFN) end-to-end test"
-echo
+
 CHANNEL_NAME="$1"
 DELAY="$2"
 LANGUAGE="$3"
@@ -103,14 +95,6 @@ installChaincode 1 2
 
 echo
 echo "========= All GOOD, BYFN execution completed =========== "
-echo
-
-echo
-echo " _____   _   _   ____   "
-echo "| ____| | \ | | |  _ \  "
-echo "|  _|   |  \| | | | | | "
-echo "| |___  | |\  | | |_| | "
-echo "|_____| |_| \_| |____/  "
 echo
 
 exit 0

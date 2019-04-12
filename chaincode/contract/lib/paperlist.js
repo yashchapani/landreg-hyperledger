@@ -12,7 +12,7 @@ const LandPaper = require('./paper.js');
 class LandPaperList extends StateList {
 
     constructor(ctx) {
-        super(ctx, 'org.papernet.commercialpaper');
+        super(ctx, 'org.regnet.reg');
         this.use(LandPaper);
     }
 

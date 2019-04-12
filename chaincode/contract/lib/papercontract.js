@@ -19,7 +19,7 @@ class LandPaperContext extends Context {
 class LandPaperContract extends Contract {
 
     constructor() {
-        super('org.papernet.commercialpaper');
+        super('org.regnet.reg');
     }
 
     createContext() {
@@ -39,13 +39,13 @@ class LandPaperContract extends Contract {
      * Issue commercial paper
      *
      * @param {Context} ctx the transaction context
-     * @param {String} owner commercial paper issuer
-     * @param {Integer} surveyID paper number for this issuer
-     * @param {String} landDescription paper issue date
-     * @param {Integer} currentPrice paper maturity date
-     * @param {Integer} area face value of paper
+     * @param {String} owner owner of the land
+     * @param {Integer} surveyID unique id of the land
+     * @param {String} landDescription  land description
+     * @param {Integer} currentPrice land price
+     * @param {Integer} area area of the land
     */
-    async issue(ctx, owner, surveyID, landDescription, currentPrice, area) {
+    async issue(ctx, surveyID, owner, landDescription, currentPrice, area) {
         let landPaper = LandPaper.createInstance(surveyID, owner, landDescription, currentPrice, area);
         landPaper.setUnallocated();
         await ctx.landPaperList.addPaper(landPaper);
@@ -53,14 +53,14 @@ class LandPaperContract extends Contract {
     }
 
     /**
-     * First time Buy commercial paper
+     * First time Buy Land paper
      *
      * @param {Context} ctx the transaction context
      * @param {Integer} surveyID paper number for this issuer
      * @param {String} currentOwner current owner of paper
      * @param {String} newOwner new owner of paper
-     * @param {Integer} price price paid for this paper
-     * @param {String} purchaseDateTime time paper was purchased (i.e. traded)
+     * @param {Integer} price price paid for this land
+     * @param {String} purchaseDateTime time land was purchased (i.e. traded)
     */
     async firstBuy(ctx, surveyID, currentOwner, newOwner, price, purchaseDateTime) {
 
@@ -85,14 +85,14 @@ class LandPaperContract extends Contract {
     }
 
         /**
-     * Buy commercial paper
+     * Buy Land paper
      *
      * @param {Context} ctx the transaction context
      * @param {Integer} surveyID paper number for this issuer
      * @param {String} currentOwner current owner of paper
      * @param {String} newOwner new owner of paper
-     * @param {Integer} price price paid for this paper
-     * @param {String} purchaseDateTime time paper was purchased (i.e. traded)
+     * @param {Integer} price price paid for this land
+     * @param {String} purchaseDateTime time land was purchased (i.e. traded)
     */
    async buy(ctx, surveyID, currentOwner, newOwner, price, purchaseDateTime) {
 
@@ -111,6 +111,20 @@ class LandPaperContract extends Contract {
     landPaper.setPrice(price);
 
     await ctx.landPaperList.updatePaper(landPaper);
+    return landPaper.toBuffer();
+}
+
+        /**
+     * Query Land Paper
+     *
+     * @param {Context} ctx the transaction context
+     * @param {Integer} surveyID paper number for this issuer
+
+    */
+   async query(ctx, surveyID) {
+
+    let landPaperKey = LandPaper.makeKey([surveyID]);
+    let landPaper = await ctx.landPaperList.getPaper(landPaperKey);
     return landPaper.toBuffer();
 }
 
